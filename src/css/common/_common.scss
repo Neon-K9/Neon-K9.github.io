@@ -1,0 +1,130 @@
+$red: #ff4d5a;
+$black: #072142;
+$silverGray: #828c96;
+$gray: #c0c5ca;
+$curtain: #020b16;
+
+@font-face {
+  font-family: "futura_r";
+  src: local("/font/Futura-Boo.woff");
+  src: url("/font/Futura-Boo.woff") format("woff");
+}
+@font-face {
+  font-family: "futura_b";
+  src: local("/font/Futura-Bol.woff");
+  src: url("/font/Futura-Bol.woff") format("woff");
+}
+@font-face {
+  font-family: "futura_m";
+  src: local("/font/Futura-Med.woff");
+  src: url("/font/Futura-Med.woff") format("woff");
+}
+@font-face {
+  font-family: "Abril-Fatface";
+  src: local("/font/AbrilFatface-Regular.ttf");
+  src: url("/font/AbrilFatface-Regular.ttf") format('truetype');
+}
+
+@mixin font_family($type: default) {
+  @if $type == default {
+    font-family: "futura_r";
+  }
+  @if $type == primary {
+    font-family: "futura_b";
+  }
+  @if $type == medium {
+    font-family: "futura_m";
+  }
+  @if $type == Abril {
+    font-family: "Abril-Fatface";
+  }
+}
+
+@mixin mediaQuery($device: desktop) {
+  @if $device == mobileOnly {
+    @media screen and (max-width:420px) {
+      @content;
+    }
+  }
+  @if $device == mobile {
+    @media screen and (max-width:800px) {
+      @content;
+    }
+  }
+  @if $device == tabletOnly {
+    @media screen and (min-width:421px) and (max-width:800px) {
+      @content;
+    }
+  }
+  @if $device == fromTablet {
+    @media screen and (min-width:421px) {
+      @content;
+    }
+  }
+  @if $device == desktop {
+    @media screen and (min-width:801px) {
+      @content;
+    }
+  }
+  @if $device == desktopAdjust { //~1250px調整用
+    @media screen and (min-width:801px) and (max-width:1250px) {
+      @content;
+    }
+  }
+}
+
+.is_mobile {
+  @include mediaQuery($device: mobileOnly) {
+    display: none;
+  }
+}
+.is_tablet {
+  @include mediaQuery($device: tabletOnly) {
+    display: none;
+  }
+}
+.is_desktop {
+  @include mediaQuery($device: desktop) {
+    display: none;
+  }
+}
+
+html {
+  font-size: 62.5%;
+  touch-action: manipulation;
+}
+
+body {
+  overflow: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  overscroll-behavior: none;
+  @include font_family();
+  &:before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    background-color: $curtain;
+    transition: height .6s;
+  }
+  &.is_init {
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+  &.is_init:before {
+    height: 0;
+  }
+  &.is_loaded:before {
+    display: none;
+  }
+  &.is_lock {
+    overflow: hidden;
+  }
+}
+body::-webkit-scrollbar {
+  display:none;
+}
