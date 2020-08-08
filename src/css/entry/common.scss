@@ -1,0 +1,9 @@
+// ベーススタイル
+@import "../base/reset";
+@import "../base/util";
+
+// 共通レイアウトスタイル
+@import "../parts/**";
+
+// ページスタイル
+@import "../pages/**";
